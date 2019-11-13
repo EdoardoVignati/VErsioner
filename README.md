@@ -1,4 +1,4 @@
-# VersionEr
+# VErsioner
 [![Build Status](https://travis-ci.org/EdoardoVignati/VErsioner.svg?branch=develop)](https://travis-ci.org/EdoardoVignati/VErsioner)
 
 A simple tool for everyone for file versioning
