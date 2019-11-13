@@ -1,4 +1,5 @@
 import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.lib.Repository;
 
@@ -15,27 +16,30 @@ import java.util.ArrayList;
 
 public class GitManager {
 
+    private static Logger logger = Logger.getLogger(Main.class);
+
     public static ArrayList<String> paths = new ArrayList<>();
 
     public static void add(String filePath) {
         paths.add(filePath);
-        System.out.println(filePath);
+        logger.info("[" + LocalDateTime.now() + "] " + filePath);
+    }
+
+    public static ArrayList<String> getPaths() {
+        return paths;
     }
 
     public static void manage() {
-        System.out.println("Managing...");
-        Repository repo = null;
-        // Create a new repository; the path must exist
+        logger.info("[" + LocalDateTime.now() + "] Git manager started");
+
         try {
-            BasicConfigurator.configure();
-            VersionEr ve = new VersionEr();
-            ve.build();
             File file = new File(paths.get(0));
             try {
                 file.createNewFile();
                 Git git = Git.init().setDirectory(file.getParentFile()).call();
-                System.out.println(git.status().call().getUntracked().contains(file.getName()));
+                logger.info("[" + LocalDateTime.now() + "] git add");
                 git.add().addFilepattern(".").call();
+                logger.info("[" + LocalDateTime.now() + "] git commit");
                 git.commit().setMessage(LocalDateTime.now().toString()).call();
 
             } catch (Exception ex) {

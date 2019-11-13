@@ -1,7 +1,10 @@
+import org.apache.log4j.Logger;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.time.LocalDateTime;
 
 /**
  * @author @EdoardoVignati
@@ -13,8 +16,12 @@ public class VersionEr extends JFrame implements MouseListener {
     }
 
     private static DragDropFrame dndFrame = null;
+    Logger logger = Logger.getLogger(Main.class);
 
     public void build() {
+
+        logger.info("[" + LocalDateTime.now() + "] Building main frame");
+
         String title = "VersionEd";
         JFrame mainFrame = new JFrame(title);
         mainFrame.setSize(700, 300);
@@ -28,6 +35,8 @@ public class VersionEr extends JFrame implements MouseListener {
         descr.setLayout(new GridLayout(1, 1));
         mainFrame.add(descr);
 
+        logger.info("[" + LocalDateTime.now() + "] Creating drag and drop area");
+
         dndFrame = new DragDropFrame();
 
         mainFrame.add(dndFrame);
@@ -37,12 +46,15 @@ public class VersionEr extends JFrame implements MouseListener {
         JButton saveButton = new JButton("Save version");
         saveButton.addMouseListener(this);
         mainFrame.add(saveButton);
+        logger.info("[" + LocalDateTime.now() + "] Showing up window");
         mainFrame.setVisible(true);
     }
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+        logger.info("[" + LocalDateTime.now() + "] New MouseEvent - Save click");
         JButton o = (JButton) mouseEvent.getSource();
+        logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
         GitManager.manage();
     }
 

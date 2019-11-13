@@ -1,7 +1,10 @@
+import org.apache.log4j.Logger;
+
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.*;
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -11,6 +14,9 @@ import java.util.List;
  */
 
 class DragDropListener implements DropTargetListener {
+
+    private static Logger logger = Logger.getLogger(Main.class);
+
 
     @Override
     public void drop(DropTargetDropEvent event) {
@@ -34,8 +40,10 @@ class DragDropListener implements DropTargetListener {
 
                     // Get all of the dropped files
                     List<File> files = (List) transferable.getTransferData(flavor);
-                    for (File f : files)
+                    for (File f : files) {
+                        logger.info("[" + LocalDateTime.now() + "] New file dropped");
                         GitManager.add(f.getPath());
+                    }
                 }
 
             } catch (Exception e) {
