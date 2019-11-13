@@ -42,7 +42,7 @@ class DragDropListener implements DropTargetListener {
                     List<File> files = (List) transferable.getTransferData(flavor);
                     for (File f : files) {
                         logger.info("[" + LocalDateTime.now() + "] New file dropped");
-                        GitManager.add(f.getPath());
+                        GitManager.registerPath(f.getPath());
                     }
                 }
 

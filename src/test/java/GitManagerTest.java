@@ -1,3 +1,4 @@
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
@@ -18,7 +19,11 @@ public class GitManagerTest {
         //Test if exists dir and delete it
         File directory = new File(absTestPath);
         if (directory.exists()) {
-            directory.delete();
+            try {
+                FileUtils.deleteDirectory(directory);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         //Create a new dir and file
@@ -34,8 +39,16 @@ public class GitManagerTest {
     }
 
     @Test
-    public void addTest() {
-        GitManager.add(file.getPath());
+    public void registerPathTest() {
+        GitManager.registerPath(file.getPath());
         assertEquals(file.getPath(), GitManager.getPaths().get(0));
+    }
+
+
+    @Test
+    public void getCommitsTest() {
+        GitManager.registerPath(file.getPath());
+        GitManager.manage();
+        assertEquals(1, GitManager.getCommits().size());
     }
 }

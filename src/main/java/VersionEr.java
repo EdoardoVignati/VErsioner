@@ -1,10 +1,13 @@
 import org.apache.log4j.Logger;
+import org.bouncycastle.util.CollectionStore;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author @EdoardoVignati
@@ -15,6 +18,7 @@ public class VersionEr extends JFrame implements MouseListener {
         super();
     }
 
+    private static DefaultListModel listModel;
     private static DragDropFrame dndFrame = null;
     private static Logger logger = Logger.getLogger(Main.class);
 
@@ -34,14 +38,11 @@ public class VersionEr extends JFrame implements MouseListener {
         mainFrame.setLayout(layout);
 
         // Display version list
-        String[] versionList = new String[]{"elemento1", "elemento2", "elemento3", "elemento4", "elemento5", "elemento1", "elemento2", "elemento3", "elemento4", "elemento5"};
         JList versionsFrame = new JList();
-        versionsFrame.setSize(450,300);
+        versionsFrame.setSize(450, 300);
         versionsFrame.setBackground(Color.WHITE);
         versionsFrame.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        DefaultListModel listModel = new DefaultListModel();
-        for (String s : versionList)
-            listModel.add(0, s);
+        listModel = new DefaultListModel();
         versionsFrame.setModel(listModel);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(versionsFrame);
@@ -67,7 +68,7 @@ public class VersionEr extends JFrame implements MouseListener {
         logger.info("[" + LocalDateTime.now() + "] Creating drag and drop area");
 
         dndFrame = new DragDropFrame();
-        dndFrame.setLayout(new GridLayout(1,1));
+        dndFrame.setLayout(new GridLayout(1, 1));
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.weighty = 1;
@@ -78,7 +79,7 @@ public class VersionEr extends JFrame implements MouseListener {
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridheight = 1;
-        gbc.weighty=0.4;
+        gbc.weighty = 0.4;
         gbc.anchor = GridBagConstraints.CENTER;
         mainFrame.add(saveButton, gbc);
 
@@ -93,6 +94,15 @@ public class VersionEr extends JFrame implements MouseListener {
         JButton o = (JButton) mouseEvent.getSource();
         logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
         GitManager.manage();
+
+        ArrayList<Integer> commitList = new ArrayList<>();
+        for (Integer s : GitManager.getCommits())
+            commitList.add(s);
+        Collections.sort(commitList);
+        listModel.removeAllElements();
+        for (int i = 0; i < commitList.size(); i++) {
+            listModel.add(i, commitList.get(i));
+        }
     }
 
     @Override
