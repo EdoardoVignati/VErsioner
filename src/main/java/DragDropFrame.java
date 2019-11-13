@@ -11,30 +11,29 @@ import java.time.LocalDateTime;
  * @author EdoardoVignati
  */
 
-public class DragDropFrame extends JPanel {
+class DragDropFrame extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    Logger logger = Logger.getLogger(Main.class);
+    private static Logger logger = Logger.getLogger(Main.class);
 
 
-    public DragDropFrame() {
+    protected DragDropFrame() {
 
         super();
 
         JPanel dropPanel = new JPanel();
-        dropPanel.setLayout(new GridLayout(0, 1));
+        GridLayout gd = new GridLayout(1, 1);
+        dropPanel.setLayout(gd);
         dropPanel.setBackground(Color.WHITE);
-
-        JLabel putFile = new JLabel("Drag & drop here your file", SwingConstants.CENTER);
+        JLabel putFile = new JLabel("Drag & drop here your file");
+        putFile.setHorizontalAlignment(JLabel.CENTER);
         dropPanel.add(putFile);
-        putFile.setVisible(true);
 
         logger.info("[" + LocalDateTime.now() + "] Initializing  drag and drop listener");
         DragDropListener dragDropListener = new DragDropListener();
         new DropTarget(dropPanel, dragDropListener);
-        this.add(BorderLayout.CENTER, dropPanel);
 
-        this.setVisible(true);
+        this.add(dropPanel);
 
     }
 }

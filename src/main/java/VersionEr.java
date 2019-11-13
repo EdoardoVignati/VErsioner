@@ -16,36 +16,73 @@ public class VersionEr extends JFrame implements MouseListener {
     }
 
     private static DragDropFrame dndFrame = null;
-    Logger logger = Logger.getLogger(Main.class);
+    private static Logger logger = Logger.getLogger(Main.class);
 
     public void build() {
 
         logger.info("[" + LocalDateTime.now() + "] Building main frame");
 
-        String title = "VersionEd";
+        // Main frame
+        String title = "VErsioned";
         JFrame mainFrame = new JFrame(title);
         mainFrame.setSize(700, 300);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        GridLayout layout = new GridLayout(3, 1);
+        // Setup GridBagLayout of mainFrame
+        GridBagLayout layout = new GridBagLayout();
+        GridBagConstraints gbc = new GridBagConstraints();
         mainFrame.setLayout(layout);
+
+        // Display version list
+        String[] versionList = new String[]{"elemento1", "elemento2", "elemento3", "elemento4", "elemento5", "elemento1", "elemento2", "elemento3", "elemento4", "elemento5"};
+        JList versionsFrame = new JList();
+        versionsFrame.setSize(450,300);
+        versionsFrame.setBackground(Color.WHITE);
+        versionsFrame.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        DefaultListModel listModel = new DefaultListModel();
+        for (String s : versionList)
+            listModel.add(0, s);
+        versionsFrame.setModel(listModel);
+        JScrollPane scrollPane = new JScrollPane();
+        scrollPane.setViewportView(versionsFrame);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.gridheight = 3;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+        mainFrame.add(scrollPane, gbc);
 
         String description = "Usage of this tool";
         JLabel descr = new JLabel(description);
-        descr.setLayout(new GridLayout(1, 1));
-        mainFrame.add(descr);
+        gbc.gridx = 1;
+        gbc.gridy = 0;
+        gbc.gridheight = 1;
+        gbc.weightx = 1;
+        gbc.weighty = 1;
+        gbc.anchor = GridBagConstraints.CENTER;
+        mainFrame.add(descr, gbc);
 
         logger.info("[" + LocalDateTime.now() + "] Creating drag and drop area");
 
         dndFrame = new DragDropFrame();
-
-        mainFrame.add(dndFrame);
-        dndFrame.setLayout(new GridLayout(1, 1));
-        dndFrame.setVisible(true);
+        dndFrame.setLayout(new GridLayout(1,1));
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.weighty = 1;
+        mainFrame.add(dndFrame, gbc);
 
         JButton saveButton = new JButton("Save version");
         saveButton.addMouseListener(this);
-        mainFrame.add(saveButton);
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.gridheight = 1;
+        gbc.weighty=0.4;
+        gbc.anchor = GridBagConstraints.CENTER;
+        mainFrame.add(saveButton, gbc);
+
+
         logger.info("[" + LocalDateTime.now() + "] Showing up window");
         mainFrame.setVisible(true);
     }
