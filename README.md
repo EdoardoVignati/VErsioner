@@ -4,7 +4,7 @@
 A simple tool for everyone for file versioning
 
 # Prerequisites
-Install git (I hope this will be done automatically on the user host)
+- Install git
 
 # Development and running
 - Clone the repo and import in your ide as Maven project
