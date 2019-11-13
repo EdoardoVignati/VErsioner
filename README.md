@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/EdoardoVignati/VersionEr.svg?branch=develop)](https://travis-ci.org/EdoardoVignati/VersionEr)
+
 # VersionEr
 A simple tool for everyone for file versioning
 
