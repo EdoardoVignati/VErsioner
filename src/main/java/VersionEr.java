@@ -6,8 +6,7 @@ import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
 
 /**
  * @author @EdoardoVignati
@@ -20,13 +19,13 @@ public class VersionEr extends JFrame implements MouseListener {
 
     private static DefaultListModel listModel;
     private static DragDropFrame dndFrame = null;
+    private static JTextArea descr = null;
     private static Logger logger = Logger.getLogger(Main.class);
 
     public void build() {
 
-        logger.info("[" + LocalDateTime.now() + "] Building main frame");
-
         // Main frame
+        logger.info("[" + LocalDateTime.now() + "] Building main frame");
         String title = "VErsioned";
         JFrame mainFrame = new JFrame(title);
         mainFrame.setSize(700, 300);
@@ -46,41 +45,43 @@ public class VersionEr extends JFrame implements MouseListener {
         versionsFrame.setModel(listModel);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(versionsFrame);
+        gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.gridheight = 3;
         gbc.weightx = 1;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
         mainFrame.add(scrollPane, gbc);
 
-        String description = "Usage of this tool";
-        JLabel descr = new JLabel(description);
-        gbc.gridx = 1;
-        gbc.gridy = 0;
-        gbc.gridheight = 1;
-        gbc.weightx = 1;
-        gbc.weighty = 1;
-        gbc.anchor = GridBagConstraints.CENTER;
-        mainFrame.add(descr, gbc);
-
+        // Drag and drop area
         logger.info("[" + LocalDateTime.now() + "] Creating drag and drop area");
-
         dndFrame = new DragDropFrame();
         dndFrame.setLayout(new GridLayout(1, 1));
         gbc.gridx = 1;
-        gbc.gridy = 1;
-        gbc.weighty = 1;
+        gbc.gridy = 0;
+        gbc.gridheight = 1;
         mainFrame.add(dndFrame, gbc);
 
+        // Message area
+        String description = "Write here a version message";
+        descr = new JTextArea(description);
+        descr.setWrapStyleWord(true);
+        descr.setLineWrap(true);
+        descr.setLayout(new GridLayout(1, 1));
+        gbc.gridx = 1;
+        gbc.gridy = 1;
+        gbc.gridheight = 1;
+        mainFrame.add(descr, gbc);
+
+        // Save button
         JButton saveButton = new JButton("Save version");
+        saveButton.setLayout(new GridLayout(1, 1));
         saveButton.addMouseListener(this);
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridheight = 1;
         gbc.weighty = 0.4;
-        gbc.anchor = GridBagConstraints.CENTER;
         mainFrame.add(saveButton, gbc);
 
 
@@ -92,17 +93,31 @@ public class VersionEr extends JFrame implements MouseListener {
     public void mouseClicked(MouseEvent mouseEvent) {
         logger.info("[" + LocalDateTime.now() + "] New MouseEvent - Save click");
         JButton o = (JButton) mouseEvent.getSource();
+        String message = descr.getText();
         logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
-        GitManager.manage();
+        logger.info("[" + LocalDateTime.now() + "] " + message);
+        GitManager.manage(message);
 
+        HashMap<Integer, String> commits = GitManager.getCommits();
         ArrayList<Integer> commitList = new ArrayList<>();
-        for (Integer s : GitManager.getCommits())
+        for (Integer s : commits.keySet())
             commitList.add(s);
         Collections.sort(commitList);
         listModel.removeAllElements();
+
+        long epoch;
+        Date expiry;
+
+        String listElement;
         for (int i = 0; i < commitList.size(); i++) {
-            listModel.add(i, commitList.get(i));
+            epoch = Long.parseLong(String.valueOf(commitList.get(i)));
+            expiry = new Date(epoch * 1000);
+            listElement = "<html>" + expiry.toString() + "<br />&nbsp;&nbsp;&nbsp;&nbsp;";
+            listElement += commits.get(commitList.get(i)) + "<br /><br /></html>";
+            listModel.add(i, listElement);
         }
+        descr.setText("Write here a version message");
+
     }
 
     @Override

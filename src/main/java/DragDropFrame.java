@@ -24,7 +24,6 @@ class DragDropFrame extends JPanel {
         JPanel dropPanel = new JPanel();
         GridLayout gd = new GridLayout(1, 1);
         dropPanel.setLayout(gd);
-        dropPanel.setBackground(Color.WHITE);
         JLabel putFile = new JLabel("Drag & drop here your file");
         putFile.setHorizontalAlignment(JLabel.CENTER);
         dropPanel.add(putFile);

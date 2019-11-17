@@ -48,7 +48,7 @@ public class GitManagerTest {
     @Test
     public void getCommitsTest() {
         GitManager.registerPath(file.getPath());
-        GitManager.manage();
+        GitManager.manage("A message to manage");
         assertEquals(1, GitManager.getCommits().size());
     }
 }

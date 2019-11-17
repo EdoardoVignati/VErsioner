@@ -1,16 +1,14 @@
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.Git;
-import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Git Manager
@@ -35,31 +33,29 @@ public class GitManager {
         return paths;
     }
 
-    public static void manage() {
+    public static void manage(String message) {
         logger.info("[" + LocalDateTime.now() + "] Git manager started");
 
-        try {
-            File file = new File(paths.get(0));
+        if (paths.size() > 0) {
             try {
+                File file = new File(paths.get(0));
                 file.createNewFile();
                 git = Git.init().setDirectory(file.getParentFile()).call();
                 logger.info("[" + LocalDateTime.now() + "] git add");
-                git.add().addFilepattern(".").call();
+                git.add().addFilepattern(paths.get(0)).call();
                 logger.info("[" + LocalDateTime.now() + "] git commit");
-                git.commit().setMessage(LocalDateTime.now().toString()).call();
+                git.commit().setMessage(message).call();
 
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+
 
     }
 
-    public static ArrayList<Integer> getCommits() {
-        ArrayList<Integer> commits = new ArrayList<>();
+    public static HashMap<Integer, String> getCommits() {
+        HashMap<Integer, String> commits = new HashMap();
         try {
             if (!new File(new File(paths.get(0)).getParent() + "/.git").exists())
                 throw new FileNotFoundException();
@@ -67,7 +63,7 @@ public class GitManager {
             String treeName = "refs/heads/master";
 
             for (RevCommit commit : git.log().add(repository.resolve(treeName)).call())
-                commits.add(commit.getCommitTime());
+                commits.put(commit.getCommitTime(), commit.getShortMessage());
 
         } catch (Exception e) {
             if (e instanceof FileNotFoundException)
