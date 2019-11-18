@@ -18,4 +18,4 @@ A simple and graphic tool for everyone for file versioning
 If you like this project pull like ther's no tomorrow :-)
 
 # Credits
-Logo by @teozoia
+Logo by [@teozoia]( https://github.com/teozoia )
