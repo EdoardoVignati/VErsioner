@@ -1,20 +1,24 @@
 import org.apache.commons.io.FileUtils;
+import org.eclipse.jgit.api.Git;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 public class GitManagerTest {
 
     private static String absTestPath = "/tmp/versioner/";
-    private static File file;
+    private static File file, untracked;
 
-    @BeforeAll
-    public static void create() {
+    @BeforeEach
+    public void create() {
         String file1 = "File1.txt";
+        String file2 = "Untracked.txt";
 
         //Test if exists dir and delete it
         File directory = new File(absTestPath);
@@ -26,12 +30,17 @@ public class GitManagerTest {
             }
         }
 
+        assertEquals(false, new File(absTestPath).exists());
+
         //Create a new dir and file
         directory.mkdirs();
         file = new File(absTestPath + file1);
+        untracked = new File(absTestPath + file2);
+
 
         try {
             file.createNewFile();
+            untracked.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -41,14 +50,23 @@ public class GitManagerTest {
     @Test
     public void registerPathTest() {
         GitManager.registerPath(file.getPath());
-        assertEquals(file.getPath(), GitManager.getPaths().get(0));
+        assertEquals(file.getPath(), GitManager.getPath());
     }
 
 
     @Test
     public void getCommitsTest() {
         GitManager.registerPath(file.getPath());
-        GitManager.manage("A message to manage");
+        GitManager.manage("A message to manager1");
         assertEquals(1, GitManager.getCommits().size());
+    }
+
+
+    @Test
+    public void checkUntrackedTest() {
+        GitManager.registerPath(file.getPath());
+        GitManager.manage("A message to manager2");
+        Set<String> untracked = GitManager.getUntracked();
+        assertEquals(true, untracked.contains("Untracked.txt"));
     }
 }
