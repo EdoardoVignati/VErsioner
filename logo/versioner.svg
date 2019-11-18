@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 159.9724 52.324482"
+   height="52.324482mm"
+   width="159.9724mm">
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-22.492571,-120.15758)"
+     id="layer2">
+    <path
+       style="fill:none;stroke:#447821;stroke-width:2.64583325;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 91.268624,140.14883 80.9966,125.02089 H 46.60083"
+       id="path853" />
+  </g>
+  <g
+     transform="translate(-22.492571,-120.15758)"
+     id="layer1">
+    <path
+       id="path835"
+       d="m 26.769508,152.49082 10.272056,15.12794 h 34.395871"
+       style="fill:none;stroke:#aa0000;stroke-width:2.64583325;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       id="path843"
+       d="m 67.418875,163.65001 4.01856,3.96875 -4.01856,3.91583"
+       style="fill:none;stroke:#aa0000;stroke-width:2.64583325;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       y="147.45744"
+       x="22.492571"
+       height="7.3024969"
+       width="8.7281361"
+       id="rect847"
+       style="fill:#ffffff;stroke:none;stroke-width:2.64583325;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       style="fill:none;stroke:#447821;stroke-width:2.64583325;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 50.61939,128.98964 -4.01856,-3.96875 4.01856,-3.91583"
+       id="path855" />
+    <rect
+       transform="scale(-1)"
+       style="fill:#ffffff;stroke:none;stroke-width:2.64583325;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect857"
+       width="8.7281361"
+       height="7.3024969"
+       x="-95.545815"
+       y="-145.18201" />
+  </g>
+  <g
+     transform="translate(-22.492571,-120.15758)"
+     id="layer3">
+    <text
+       id="text12"
+       y="160.6514"
+       x="33.910728"
+       style="font-style:normal;font-weight:normal;font-size:10.58333302px;line-height:1.25;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:50.79999924px;font-family:'.SF NS Display Condensed';-inkscape-font-specification:'.SF NS Display Condensed, Bold';letter-spacing:1.32291663px;fill:#002255;stroke-width:0.26458332"
+         y="160.6514"
+         x="33.910728"
+         id="tspan10"><tspan
+           id="tspan878"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:40.56944275px;font-family:'.SF NS Display Condensed';-inkscape-font-specification:'.SF NS Display Condensed, Bold';letter-spacing:1.32291663px">VE</tspan><tspan
+           id="tspan867"
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:24.69444466px;font-family:'.SF NS Display Condensed';-inkscape-font-specification:'.SF NS Display Condensed, Bold';letter-spacing:1.32291663px">RSIONER</tspan></tspan></text>
+  </g>
+</svg>

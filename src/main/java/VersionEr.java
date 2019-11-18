@@ -2,6 +2,8 @@ import org.apache.log4j.Logger;
 import org.bouncycastle.util.CollectionStore;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -48,11 +50,21 @@ public class VersionEr extends JFrame implements MouseListener {
         gbc.anchor = GridBagConstraints.NORTHWEST;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridheight = 3;
+        gbc.gridheight = 2;
         gbc.weightx = 1;
         gbc.weighty = 1;
         gbc.fill = GridBagConstraints.BOTH;
         mainFrame.add(scrollPane, gbc);
+
+        // Save button
+        JButton restoreButton = new JButton("Restore version");
+        restoreButton.setLayout(new GridLayout(1, 1));
+        restoreButton.addMouseListener(this);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.gridheight = 1;
+        gbc.weighty = 0.4;
+        mainFrame.add(restoreButton, gbc);
 
         // Drag and drop area
         logger.info("[" + LocalDateTime.now() + "] Creating drag and drop area");
