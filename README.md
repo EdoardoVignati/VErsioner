@@ -3,7 +3,7 @@
 
 A simple and graphic tool for everyone for file versioning
 
-![Logo](https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/logo/versioner.png "Logo"){:height="50%" width="50%"}
+<img src="https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/logo/versioner.png" width="70%">
 
 # Prerequisites
 - Install git
