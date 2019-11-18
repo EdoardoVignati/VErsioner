@@ -1,5 +1,5 @@
 <img src="https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/logo/versioner.png" width="40%">
-
+<hr>
 [![Build Status](https://travis-ci.org/EdoardoVignati/VErsioner.svg?branch=develop)](https://travis-ci.org/EdoardoVignati/VErsioner)
 
 A simple and graphic tool for everyone for file versioning
