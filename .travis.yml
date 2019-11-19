@@ -1,9 +1,9 @@
 language: java
-
 deploy:
   provider: releases
-  api_key: "GITHUB OAUTH TOKEN"
-  file: "FILE TO UPLOAD"
-  skip_cleanup: true
+  api_key:
+    secure: wCVOpPgWdRIxBU++YM+Y2YxPNlJZ5ODtj9YgmLN/Xrv2eNUj2vcBWGa2wDD57+3oLIHVCeBzoKJQOOVF86BTX3gzo2ZWhSwWF11mG2HKx0CPr0p2zZYM/3XYviy49aDEW9ba70TWBJFzd1EhOveCuYlZKiL+wvHKA2UYbzTFLh8wWJmL2JdiWMCp6sFWG25lk3k7h6Pyr3tdOq4ua2sBGeTKMS+/7p5jxhecscnDcCVUss0C1Tw0dgJSbX6uMqbJfn+MfCHpyas6Jb6LmX0UpjR9KAUC8pIgc1KuIBjZRRQjC5INcVlxABpO2M6W39q5Vq42TKkokC5/l8NsWhEJV+5WRDcpH3TBFMMDriboROex8qeCQW1fM5cXJdG/aNm24rMSgwipeg4hv9DMZx/cgyBqLnhFGmveVfVp7ZzkbQpvu/kJkpXJolIJoLvzC/183NEyFkCpDqnaGDNxQWXG4PxL320e9/jTOc/uAC2nun2aQdmk44DPpbdmGwZTeAGTFEKsIf4xa1cK6PkHcSUTIkgoenbN6TFZqvttSe8Y8HKaIjJwtVogJJVTzR0x04O/tNutfiYI9k59OtCg7JutDZ3XM6J9cIBxJuxXhk6QJiluzJLC9BZKttCqJ/HpoadD3Vuwt29csgoybAw1SQ0htNcVd4yU3V+vWnvr6qExU1c=
+  file: VErsioner-jar-with-dependencies.jar
   on:
-    tags: true
+    repo: EdoardoVignati/VErsioner
+    branch: develop
