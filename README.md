@@ -6,7 +6,7 @@
 
 A simple and graphic tool for everyone for file versioning
 
-<center><img src="https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/demo.png" width="60%"></center>
+<img src="https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/demo.png" width="60%">
 
 # Prerequisites
 - Install git
