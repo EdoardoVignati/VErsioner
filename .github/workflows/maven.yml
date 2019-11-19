@@ -17,5 +17,3 @@ jobs:
         run: mvn -B package --file pom.xml
       - name: action-maven
         uses: comchangs/action-maven@v0.4-beta
-      - name: Buil Jar
-        run: assembly:assemby
