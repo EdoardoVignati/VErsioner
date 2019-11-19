@@ -1,5 +1,5 @@
+import it.edoardovignati.versioner.GitManager;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.jgit.api.Git;
 import org.junit.jupiter.api.*;
 
 import java.io.File;

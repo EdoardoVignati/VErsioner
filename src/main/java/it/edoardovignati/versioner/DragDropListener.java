@@ -1,3 +1,5 @@
+package it.edoardovignati.versioner;
+
 import org.apache.log4j.Logger;
 
 import java.awt.datatransfer.DataFlavor;

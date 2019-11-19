@@ -1,9 +1,8 @@
+package it.edoardovignati.versioner;
+
 import org.apache.log4j.Logger;
-import org.bouncycastle.util.CollectionStore;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -26,7 +25,7 @@ public class VersionEr extends JFrame implements MouseListener {
 
     public void build() {
 
-        // Main frame
+        // it.edoardovignati.versioner.Main frame
         logger.info("[" + LocalDateTime.now() + "] Building main frame");
         String title = "VErsioned";
         JFrame mainFrame = new JFrame(title);
