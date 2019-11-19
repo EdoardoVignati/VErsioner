@@ -2,7 +2,7 @@
 
 <hr />
 
-[![Build Status](https://travis-ci.org/EdoardoVignati/VErsioner.svg?branch=develop)](https://travis-ci.org/EdoardoVignati/VErsioner)
+[![Build Status](https://travis-ci.org/EdoardoVignati/VErsioner.svg?branch=develop)](https://travis-ci.org/EdoardoVignati/VErsioner) [![DOWNLOAD JAR](https://api.edoardovignati.it/VErsioner) 
 
 A simple and graphic tool for everyone for file versioning
 
