@@ -15,7 +15,7 @@ A simple and graphic tool for everyone for file versioning
 # Development and running
 - Clone the repo and import in your ide as Maven project
 - Run it.edoardovignati.versioner.Main.java 
-- When opened, drop a file into the droppable area and click the save button: this will turn your file into a directory with a first commit (the commit message for now is a simple LocalDateTime string).
+- When opened, drop a file into the droppable area and click the save button: this will turn your file into a directory with a first commit.
 
 # Build
 - Clone the repo and build the jar with "mvn assembly:assembly"
