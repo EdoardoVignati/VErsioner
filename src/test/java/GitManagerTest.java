@@ -57,7 +57,7 @@ public class GitManagerTest {
     @Test
     public void getCommitsTest() {
         GitManager.registerPath(file.getPath());
-        GitManager.manage("A message to manager1");
+        GitManager.addAndCommit("A message to manager1");
         assertEquals(1, GitManager.getCommits().size());
     }
 
@@ -65,7 +65,7 @@ public class GitManagerTest {
     @Test
     public void checkUntrackedTest() {
         GitManager.registerPath(file.getPath());
-        GitManager.manage("A message to manager2");
+        GitManager.addAndCommit("A message to manager2");
         Set<String> untracked = GitManager.getUntracked();
         assertEquals(true, untracked.contains("Untracked.txt"));
     }

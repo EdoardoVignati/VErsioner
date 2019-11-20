@@ -1,6 +1,7 @@
 package it.edoardovignati.versioner;
 
 import org.apache.log4j.Logger;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,14 +22,17 @@ public class VersionEr extends JFrame implements MouseListener {
     private static DefaultListModel listModel;
     private static DragDropFrame dndFrame = null;
     private static JTextArea descr = null;
+    private static JFrame mainFrame;
+    private JList versionsFrame;
     private static Logger logger = Logger.getLogger(Main.class);
+    ArrayList<RevCommit> commits;
+    JDialog confirmDialog;
 
     public void build() {
 
-        // it.edoardovignati.versioner.Main frame
         logger.info("[" + LocalDateTime.now() + "] Building main frame");
-        String title = "VErsioned";
-        JFrame mainFrame = new JFrame(title);
+        String title = "VErsioner";
+        mainFrame = new JFrame(title);
         mainFrame.setSize(700, 300);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -38,7 +42,7 @@ public class VersionEr extends JFrame implements MouseListener {
         mainFrame.setLayout(layout);
 
         // Display version list
-        JList versionsFrame = new JList();
+        versionsFrame = new JList();
         versionsFrame.setSize(450, 300);
         versionsFrame.setBackground(Color.WHITE);
         versionsFrame.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -55,9 +59,10 @@ public class VersionEr extends JFrame implements MouseListener {
         gbc.fill = GridBagConstraints.BOTH;
         mainFrame.add(scrollPane, gbc);
 
-        // Save button
+        // restore button
         JButton restoreButton = new JButton("Restore version");
         restoreButton.setLayout(new GridLayout(1, 1));
+        restoreButton.setName("restoreButton");
         restoreButton.addMouseListener(this);
         gbc.gridx = 0;
         gbc.gridy = 2;
@@ -88,6 +93,7 @@ public class VersionEr extends JFrame implements MouseListener {
         // Save button
         JButton saveButton = new JButton("Save version");
         saveButton.setLayout(new GridLayout(1, 1));
+        saveButton.setName("saveButton");
         saveButton.addMouseListener(this);
         gbc.gridx = 1;
         gbc.gridy = 2;
@@ -102,33 +108,40 @@ public class VersionEr extends JFrame implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
-        logger.info("[" + LocalDateTime.now() + "] New MouseEvent - Save click");
+
         JButton o = (JButton) mouseEvent.getSource();
-        String message = descr.getText();
-        logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
-        logger.info("[" + LocalDateTime.now() + "] " + message);
-        GitManager.manage(message);
 
-        HashMap<Integer, String> commits = GitManager.getCommits();
-        ArrayList<Integer> commitList = new ArrayList<>();
-        for (Integer s : commits.keySet())
-            commitList.add(s);
-        Collections.sort(commitList);
-        listModel.removeAllElements();
+        logger.info("[" + LocalDateTime.now() + "] New MouseEvent - " + o.getName() + " click");
 
-        long epoch;
-        Date expiry;
+        if (o.getName().equals("saveButton")) {
 
-        String listElement;
-        for (int i = 0; i < commitList.size(); i++) {
-            epoch = Long.parseLong(String.valueOf(commitList.get(i)));
-            expiry = new Date(epoch * 1000);
-            listElement = "<html>" + expiry.toString() + "<br />&nbsp;&nbsp;&nbsp;&nbsp;";
-            listElement += commits.get(commitList.get(i)) + "<br /><br /></html>";
-            listModel.add(i, listElement);
+            String message = descr.getText();
+            logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
+
+            GitManager.addAndCommit(message);
+
+            logger.info("[" + LocalDateTime.now() + "] Commit done: " + message);
+
+            descr.setText("Write here a version message");
+            refreshVersions();
+
+        } else if (o.getName().equals("restoreButton"))
+            buildConfirmationDialog();
+        else if (o.getName().equals("restoreConfirmation")) {
+
+            int versionIndex = versionsFrame.getSelectedIndex();
+            confirmDialog.setVisible(false);
+            int j = 0;
+
+            for (RevCommit h : commits) {
+                if (versionIndex == j) {
+                    GitManager.checkout(h);
+                    break;
+                }
+                j++;
+            }
+            refreshVersions();
         }
-        descr.setText("Write here a version message");
-
     }
 
     @Override
@@ -151,4 +164,48 @@ public class VersionEr extends JFrame implements MouseListener {
 
     }
 
+    private void buildConfirmationDialog() {
+
+        logger.info("[" + LocalDateTime.now() + "] Building confirmation dialog");
+
+        confirmDialog = new JDialog(mainFrame, "Confirm");
+        confirmDialog.setLayout(new GridLayout(2, 1));
+        JLabel confirmLabel = new JLabel("Confirm restore?");
+        confirmLabel.setLayout(new GridLayout(0, 1));
+        confirmDialog.add(confirmLabel);
+
+        JButton restoreConfirmation = new JButton("Restore");
+        restoreConfirmation.setLayout(new GridLayout(0, 1));
+
+        restoreConfirmation.addMouseListener(this);
+        restoreConfirmation.setName("restoreConfirmation");
+        confirmDialog.add(restoreConfirmation);
+
+        confirmDialog.setSize(300, 150);
+
+        confirmDialog.setVisible(true);
+    }
+
+    public void refreshVersions() {
+
+        logger.info("[" + LocalDateTime.now() + "] Refreshing versions");
+
+        commits = GitManager.getCommits();
+        listModel.removeAllElements();
+
+        long epoch;
+        Date dateTime;
+
+        String listElement;
+        int i = 0;
+        for (RevCommit c : commits) {
+            epoch = c.getCommitTime();
+            dateTime = new Date(epoch * 1000);
+            listElement = "<html>" + dateTime.toString() + "<br />&nbsp;&nbsp;&nbsp;&nbsp;";
+            listElement += c.getShortMessage() + "<br /><br /></html>";
+            listModel.add(i, listElement);
+            i++;
+        }
+
+    }
 }

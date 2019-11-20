@@ -4,13 +4,14 @@ import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.lib.BranchConfig;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -25,7 +26,7 @@ public class GitManager {
     private static Logger logger = Logger.getLogger(Main.class);
 
     private static Git git;
-    public static String path = "";
+    public static String path;
 
     public static void registerPath(String filePath) {
         path = filePath;
@@ -36,10 +37,12 @@ public class GitManager {
         return path;
     }
 
-    public static void manage(String message) {
+    public static void addAndCommit(String message) {
+        stash();
+
         logger.info("[" + LocalDateTime.now() + "] Git manager started");
 
-        if (!path.equals("")) {
+        if (!path.equals("") || path == null) {
             try {
                 File file = new File(path);
                 git = Git.init().setDirectory(file.getParentFile()).call();
@@ -49,15 +52,15 @@ public class GitManager {
                 git.commit().setMessage(message).call();
 
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("[" + LocalDateTime.now() + "] No file added");
             }
         }
 
 
     }
 
-    public static HashMap<Integer, String> getCommits() {
-        HashMap<Integer, String> commits = new HashMap();
+    public static ArrayList<RevCommit> getCommits() {
+        ArrayList<RevCommit> commits = new ArrayList();
         try {
             if (!new File(new File(path).getParent() + "/.git").exists())
                 throw new FileNotFoundException();
@@ -65,7 +68,7 @@ public class GitManager {
             String treeName = "refs/heads/master";
 
             for (RevCommit commit : git.log().add(repository.resolve(treeName)).call())
-                commits.put(commit.getCommitTime(), commit.getShortMessage());
+                commits.add(commit);
 
         } catch (Exception e) {
             if (e instanceof FileNotFoundException)
@@ -83,4 +86,42 @@ public class GitManager {
         }
         return null;
     }
+
+    public static void checkout(RevCommit version) {
+
+        logger.info("[" + LocalDateTime.now() + "] Checking out for " + version.getId());
+        try {
+
+            logger.info("[" + LocalDateTime.now() + "] Checking out " +
+                    " " + version.getName()
+                    + version.getShortMessage());
+            git.checkout().setName(version.getName()).call();
+        } catch (Exception e) {
+            logger.error("[" + LocalDateTime.now() + "] No repo to update");
+        }
+    }
+
+    public static void restore() {
+        try {
+            logger.error("[" + LocalDateTime.now() + "] Restoring to master");
+
+            git.checkout().setName("master").call();
+        } catch (Exception e) {
+            logger.error("[" + LocalDateTime.now() + "] No repo to update");
+        }
+    }
+
+
+    public static void stash() {
+        try {
+            logger.error("[" + LocalDateTime.now() + "] Stashing");
+            git.stashCreate().call();
+            logger.error("[" + LocalDateTime.now() + "] Cheking out on stash");
+            git.checkout().setName("master").call();
+            git.stashApply().call();
+        } catch (Exception e) {
+            logger.error("[" + LocalDateTime.now() + "] No repo to update");
+        }
+    }
+
 }
