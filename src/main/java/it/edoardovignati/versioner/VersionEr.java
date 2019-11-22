@@ -41,6 +41,15 @@ public class VersionEr extends JFrame implements MouseListener {
         GridBagConstraints gbc = new GridBagConstraints();
         mainFrame.setLayout(layout);
 
+        // Menu bar
+        JMenuBar menubar = new JMenuBar();
+        JMenu help = new JMenu("Help");
+        menubar.add(help);
+        JMenu about = new JMenu("About");
+        menubar.add(about);
+        mainFrame.setJMenuBar(menubar);
+
+
         // Display version list
         versionsFrame = new JList();
         versionsFrame.setSize(450, 300);

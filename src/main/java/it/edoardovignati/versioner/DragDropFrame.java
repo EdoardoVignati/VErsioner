@@ -17,7 +17,7 @@ class DragDropFrame extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(Main.class);
-
+    static JLabel putFile;
 
     protected DragDropFrame() {
 
@@ -26,7 +26,7 @@ class DragDropFrame extends JPanel {
         JPanel dropPanel = new JPanel();
         GridLayout gd = new GridLayout(1, 1);
         dropPanel.setLayout(gd);
-        JLabel putFile = new JLabel("Drag & drop here your file");
+        putFile = new JLabel("Drag & drop here your file");
         putFile.setHorizontalAlignment(JLabel.CENTER);
         dropPanel.add(putFile);
 

@@ -5,8 +5,10 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,38 +44,54 @@ public class GitManager {
         logger.info("[" + LocalDateTime.now() + "] Git manager started");
 
         if (path != null || !path.equals("")) {
+            File file = new File(path);
+
             try {
-                File file = new File(path);
-
-                if (git == null)
-                    git = Git.init().setDirectory(file.getParentFile()).call();
-                else
-                    git = Git.open(file.getParentFile());
-
-                logger.info("[" + LocalDateTime.now() + "] Creating temp branch ");
-                git.branchCreate().setName("temp").call();
-                logger.info("[" + LocalDateTime.now() + "] Checking out temp");
-                git.checkout().setName("temp").call();
-
-                logger.info("[" + LocalDateTime.now() + "] git add " + path);
-                git.add().addFilepattern(file.getName()).call();
-                logger.info("[" + LocalDateTime.now() + "] git commit " + path);
-                git.commit().setMessage(message).call();
-
-                logger.info("[" + LocalDateTime.now() + "] Merging ours master");
-                git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("master")).call();
-
-                restore();
-
-                logger.info("[" + LocalDateTime.now() + "] Merging into master");
-                git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("temp")).call();
-
-                logger.info("[" + LocalDateTime.now() + "] Deleting branch temp");
-                git.branchDelete().setBranchNames("temp").call();
-
+                git = Git.open(new File(file.getParent() + "/.git"));
             } catch (Exception e) {
-                e.printStackTrace();
-                logger.error("[" + LocalDateTime.now() + "] No file added");
+                //e.printStackTrace();
+                logger.error("[" + LocalDateTime.now() + "] Repo not found");
+                git = null;
+            }
+
+            //First commit
+            if (git == null) {
+                logger.info("[" + LocalDateTime.now() + "] Creating new git repo");
+                try {
+                    git = Git.init().setDirectory(file.getParentFile()).call();
+                    git.add().addFilepattern(path).call();
+                    git.commit().setMessage(message).call();
+                } catch (GitAPIException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                //Not first commit
+                try {
+                    logger.info("[" + LocalDateTime.now() + "] Creating temp branch");
+                    git.branchCreate().setName("temp").call();
+                    logger.info("[" + LocalDateTime.now() + "] Checking out temp");
+                    git.checkout().setName("temp").call();
+
+                    logger.info("[" + LocalDateTime.now() + "] git add " + path);
+                    git.add().addFilepattern(file.getName()).call();
+                    logger.info("[" + LocalDateTime.now() + "] git commit " + path);
+                    git.commit().setMessage(message).call();
+
+                    logger.info("[" + LocalDateTime.now() + "] Merging ours master");
+                    git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("master")).call();
+
+                    restore();
+
+                    logger.info("[" + LocalDateTime.now() + "] Merging into master");
+                    git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("temp")).call();
+
+                    logger.info("[" + LocalDateTime.now() + "] Deleting branch temp");
+                    git.branchDelete().setBranchNames("temp").call();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    logger.error("[" + LocalDateTime.now() + "] Git error");
+                }
             }
         }
 
