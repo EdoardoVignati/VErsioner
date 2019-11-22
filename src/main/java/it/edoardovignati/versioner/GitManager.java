@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
-import org.eclipse.jgit.lib.BranchConfig;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 import java.io.File;
@@ -38,20 +38,41 @@ public class GitManager {
     }
 
     public static void addAndCommit(String message) {
-        stash();
 
         logger.info("[" + LocalDateTime.now() + "] Git manager started");
 
-        if (!path.equals("") || path == null) {
+        if (path != null || !path.equals("")) {
             try {
                 File file = new File(path);
-                git = Git.init().setDirectory(file.getParentFile()).call();
+
+                if (git == null)
+                    git = Git.init().setDirectory(file.getParentFile()).call();
+                else
+                    git = Git.open(file.getParentFile());
+
+                logger.info("[" + LocalDateTime.now() + "] Creating temp branch ");
+                git.branchCreate().setName("temp").call();
+                logger.info("[" + LocalDateTime.now() + "] Checking out temp");
+                git.checkout().setName("temp").call();
+
                 logger.info("[" + LocalDateTime.now() + "] git add " + path);
                 git.add().addFilepattern(file.getName()).call();
                 logger.info("[" + LocalDateTime.now() + "] git commit " + path);
                 git.commit().setMessage(message).call();
 
+                logger.info("[" + LocalDateTime.now() + "] Merging ours master");
+                git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("master")).call();
+
+                restore();
+
+                logger.info("[" + LocalDateTime.now() + "] Merging into master");
+                git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("temp")).call();
+
+                logger.info("[" + LocalDateTime.now() + "] Deleting branch temp");
+                git.branchDelete().setBranchNames("temp").call();
+
             } catch (Exception e) {
+                e.printStackTrace();
                 logger.error("[" + LocalDateTime.now() + "] No file added");
             }
         }
@@ -106,19 +127,6 @@ public class GitManager {
             logger.error("[" + LocalDateTime.now() + "] Restoring to master");
 
             git.checkout().setName("master").call();
-        } catch (Exception e) {
-            logger.error("[" + LocalDateTime.now() + "] No repo to update");
-        }
-    }
-
-
-    public static void stash() {
-        try {
-            logger.error("[" + LocalDateTime.now() + "] Stashing");
-            git.stashCreate().call();
-            logger.error("[" + LocalDateTime.now() + "] Cheking out on stash");
-            git.checkout().setName("master").call();
-            git.stashApply().call();
         } catch (Exception e) {
             logger.error("[" + LocalDateTime.now() + "] No repo to update");
         }
