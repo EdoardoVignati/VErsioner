@@ -13,20 +13,20 @@ import java.util.*;
 /**
  * @author @EdoardoVignati
  */
-public class VersionEr extends JFrame implements MouseListener {
+public class VErsioner extends JFrame implements MouseListener {
 
-    public VersionEr() {
+    public VErsioner() {
         super();
     }
 
-    private static DefaultListModel listModel;
-    private static DragDropFrame dndFrame = null;
-    private static JTextArea descr = null;
-    private static JFrame mainFrame;
-    private JList versionsFrame;
-    private static Logger logger = Logger.getLogger(Main.class);
-    ArrayList<RevCommit> commits;
-    JDialog confirmDialog;
+    static DefaultListModel listModel;
+    static DragDropFrame dndFrame = null;
+    static JTextArea descr = null;
+    static JFrame mainFrame;
+    static JList versionsFrame;
+    static Logger logger = Logger.getLogger(Main.class);
+    private ArrayList<RevCommit> commits;
+    private JDialog confirmDialog;
 
     public void build() {
 
@@ -42,10 +42,15 @@ public class VersionEr extends JFrame implements MouseListener {
         mainFrame.setLayout(layout);
 
         // Menu bar
+        MenuListener menuListener = new MenuListener();
         JMenuBar menubar = new JMenuBar();
         JMenu help = new JMenu("Help");
+        help.addMenuListener(menuListener);
+        help.setName("help");
         menubar.add(help);
         JMenu about = new JMenu("About");
+        about.addMenuListener(menuListener);
+        about.setName("about");
         menubar.add(about);
         mainFrame.setJMenuBar(menubar);
 
@@ -122,35 +127,12 @@ public class VersionEr extends JFrame implements MouseListener {
 
         logger.info("[" + LocalDateTime.now() + "] New MouseEvent - " + o.getName() + " click");
 
-        if (o.getName().equals("saveButton")) {
-
-            String message = descr.getText();
-            logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
-
-            GitManager.addAndCommit(message);
-
-            logger.info("[" + LocalDateTime.now() + "] Commit done: " + message);
-
-            descr.setText("Write here a version message");
-            refreshVersions();
-
-        } else if (o.getName().equals("restoreButton"))
+        if (o.getName().equals("saveButton"))
+            saveTriggered();
+        else if (o.getName().equals("restoreButton"))
             buildConfirmationDialog();
-        else if (o.getName().equals("restoreConfirmation")) {
-
-            int versionIndex = versionsFrame.getSelectedIndex();
-            confirmDialog.setVisible(false);
-            int j = 0;
-
-            for (RevCommit h : commits) {
-                if (versionIndex == j) {
-                    GitManager.checkout(h);
-                    break;
-                }
-                j++;
-            }
-            refreshVersions();
-        }
+        else if (o.getName().equals("restoreConfirmation"))
+            restoreConfirmed();
     }
 
     @Override
@@ -216,5 +198,32 @@ public class VersionEr extends JFrame implements MouseListener {
             i++;
         }
 
+    }
+
+    public void restoreConfirmed() {
+        int versionIndex = versionsFrame.getSelectedIndex();
+        confirmDialog.setVisible(false);
+        int j = 0;
+
+        for (RevCommit h : commits) {
+            if (versionIndex == j) {
+                GitManager.checkout(h);
+                break;
+            }
+            j++;
+        }
+        refreshVersions();
+    }
+
+    public void saveTriggered() {
+        String message = descr.getText();
+        logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
+
+        GitManager.addAndCommit(message);
+
+        logger.info("[" + LocalDateTime.now() + "] Commit done: " + message);
+
+        descr.setText("Write here a version message");
+        refreshVersions();
     }
 }

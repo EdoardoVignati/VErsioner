@@ -12,8 +12,11 @@ public class Main {
         logger = Logger.getLogger(Main.class);
         logger.info("[" + LocalDateTime.now() + "] New application started");
 
+        logger.info("[" + LocalDateTime.now() + "] Detected OS: " + OperatingSystem.detect());
+
+
         logger.info("[" + LocalDateTime.now() + "] Building application");
-        VersionEr ve = new VersionEr();
+        VErsioner ve = new VErsioner();
         ve.build();
     }
 }
