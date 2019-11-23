@@ -1,4 +1,7 @@
 language: java
-urls:
-  - https://api.edoardovignati.it/build/versioner/
-  on_success: always
+
+notifications:
+  webhooks:
+    urls:
+      - https://api.edoardovignati.it/build/versioner/
+    on_success: always
