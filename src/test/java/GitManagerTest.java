@@ -69,4 +69,14 @@ public class GitManagerTest {
         Set<String> untracked = GitManager.getUntracked();
         assertEquals(true, untracked.contains("Untracked.txt"));
     }
+
+    @Test
+    public void checkoutTest() {
+        //TODO
+    }
+
+    @Test
+    public void restoreFromcheckoutTest() {
+        //TODO
+    }
 }
