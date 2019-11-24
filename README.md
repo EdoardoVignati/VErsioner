@@ -19,8 +19,6 @@ A simple and graphic tool for everyone for file versioning
 
 # Build
 - Clone the repo and build the jar with "mvn assembly:assembly"
-# Notes
-If you like this project pull like ther's no tomorrow :-)
 
 # Credits
 Logo by [@teozoia]( https://github.com/teozoia )
