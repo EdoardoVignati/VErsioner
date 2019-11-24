@@ -10,13 +10,17 @@ public class Main {
     public static void main(String[] args) {
 
         logger = Logger.getLogger(Main.class);
+
         logger.info("[" + LocalDateTime.now() + "] New application started");
 
         logger.info("[" + LocalDateTime.now() + "] Detected OS: " + OperatingSystem.detect());
 
-
         logger.info("[" + LocalDateTime.now() + "] Building application");
-        VErsioner ve = new VErsioner();
-        ve.build();
+
+        if (OperatingSystem.prerequisites())
+            VErsioner.build();
+        else
+            VErsioner.installGit();
+
     }
 }

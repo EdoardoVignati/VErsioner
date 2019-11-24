@@ -13,11 +13,7 @@ import java.util.*;
 /**
  * @author @EdoardoVignati
  */
-public class VErsioner extends JFrame implements MouseListener {
-
-    public VErsioner() {
-        super();
-    }
+public class VErsioner extends JFrame {
 
     static DefaultListModel listModel;
     static DragDropFrame dndFrame = null;
@@ -25,35 +21,13 @@ public class VErsioner extends JFrame implements MouseListener {
     static JFrame mainFrame;
     static JList versionsFrame;
     static Logger logger = Logger.getLogger(Main.class);
-    private ArrayList<RevCommit> commits;
-    private JDialog confirmDialog;
+    private static ArrayList<RevCommit> commits;
+    private static JDialog confirmDialog;
+    private static GridBagConstraints gbc;
 
-    public void build() {
+    public static void build() {
 
-        logger.info("[" + LocalDateTime.now() + "] Building main frame");
-        String title = "VErsioner";
-        mainFrame = new JFrame(title);
-        mainFrame.setSize(700, 300);
-        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        // Setup GridBagLayout of mainFrame
-        GridBagLayout layout = new GridBagLayout();
-        GridBagConstraints gbc = new GridBagConstraints();
-        mainFrame.setLayout(layout);
-
-        // Menu bar
-        MenuListener menuListener = new MenuListener();
-        JMenuBar menubar = new JMenuBar();
-        JMenu help = new JMenu("Help");
-        help.addMenuListener(menuListener);
-        help.setName("help");
-        menubar.add(help);
-        JMenu about = new JMenu("About");
-        about.addMenuListener(menuListener);
-        about.setName("about");
-        menubar.add(about);
-        mainFrame.setJMenuBar(menubar);
-
+        buildMainFrame();
 
         // Display version list
         versionsFrame = new JList();
@@ -77,7 +51,7 @@ public class VErsioner extends JFrame implements MouseListener {
         JButton restoreButton = new JButton("Restore version");
         restoreButton.setLayout(new GridLayout(1, 1));
         restoreButton.setName("restoreButton");
-        restoreButton.addMouseListener(this);
+        restoreButton.addMouseListener(new VersionListener());
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridheight = 1;
@@ -108,7 +82,7 @@ public class VErsioner extends JFrame implements MouseListener {
         JButton saveButton = new JButton("Save version");
         saveButton.setLayout(new GridLayout(1, 1));
         saveButton.setName("saveButton");
-        saveButton.addMouseListener(this);
+        saveButton.addMouseListener(new VersionListener());
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridheight = 1;
@@ -120,42 +94,8 @@ public class VErsioner extends JFrame implements MouseListener {
         mainFrame.setVisible(true);
     }
 
-    @Override
-    public void mouseClicked(MouseEvent mouseEvent) {
 
-        JButton o = (JButton) mouseEvent.getSource();
-
-        logger.info("[" + LocalDateTime.now() + "] New MouseEvent - " + o.getName() + " click");
-
-        if (o.getName().equals("saveButton"))
-            saveTriggered();
-        else if (o.getName().equals("restoreButton"))
-            buildConfirmationDialog();
-        else if (o.getName().equals("restoreConfirmation"))
-            restoreConfirmed();
-    }
-
-    @Override
-    public void mousePressed(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent mouseEvent) {
-
-    }
-
-    @Override
-    public void mouseExited(MouseEvent mouseEvent) {
-
-    }
-
-    private void buildConfirmationDialog() {
+    static void buildConfirmationDialog() {
 
         logger.info("[" + LocalDateTime.now() + "] Building confirmation dialog");
 
@@ -168,7 +108,7 @@ public class VErsioner extends JFrame implements MouseListener {
         JButton restoreConfirmation = new JButton("Restore");
         restoreConfirmation.setLayout(new GridLayout(0, 1));
 
-        restoreConfirmation.addMouseListener(this);
+        restoreConfirmation.addMouseListener(new VersionListener());
         restoreConfirmation.setName("restoreConfirmation");
         confirmDialog.add(restoreConfirmation);
 
@@ -177,7 +117,7 @@ public class VErsioner extends JFrame implements MouseListener {
         confirmDialog.setVisible(true);
     }
 
-    public void refreshVersions() {
+    static void refreshVersions() {
 
         logger.info("[" + LocalDateTime.now() + "] Refreshing versions");
 
@@ -200,7 +140,7 @@ public class VErsioner extends JFrame implements MouseListener {
 
     }
 
-    public void restoreConfirmed() {
+    static void restoreConfirmed() {
         int versionIndex = versionsFrame.getSelectedIndex();
         confirmDialog.setVisible(false);
         int j = 0;
@@ -215,7 +155,7 @@ public class VErsioner extends JFrame implements MouseListener {
         refreshVersions();
     }
 
-    public void saveTriggered() {
+    static void saveTriggered() {
         String message = descr.getText();
         logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
 
@@ -226,4 +166,44 @@ public class VErsioner extends JFrame implements MouseListener {
         descr.setText("Write here a version message");
         refreshVersions();
     }
+
+    static void installGit() {
+
+        buildMainFrame();
+
+        String gitInfobpx = "<html>This system requires Git.<br>Please install it before to continue</html>";
+        JLabel gitAlert = new JLabel(gitInfobpx);
+        gitAlert.setLayout(new GridLayout(0, 1));
+        mainFrame.add(gitAlert);
+
+        mainFrame.setVisible(true);
+    }
+
+    static void buildMainFrame() {
+        logger.info("[" + LocalDateTime.now() + "] Building main frame");
+        String title = "VErsioner";
+        mainFrame = new JFrame(title);
+        mainFrame.setSize(700, 300);
+        mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        // Setup GridBagLayout of mainFrame
+        GridBagLayout layout = new GridBagLayout();
+        gbc = new GridBagConstraints();
+        mainFrame.setLayout(layout);
+
+        // Menu bar
+        MenuListener menuListener = new MenuListener();
+        JMenuBar menubar = new JMenuBar();
+        JMenu help = new JMenu("Help");
+        help.addMenuListener(menuListener);
+        help.setName("help");
+        menubar.add(help);
+        JMenu about = new JMenu("About");
+        about.addMenuListener(menuListener);
+        about.setName("about");
+        menubar.add(about);
+        mainFrame.setJMenuBar(menubar);
+    }
+
+
 }
