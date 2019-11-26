@@ -171,10 +171,23 @@ public class VErsioner extends JFrame {
 
         buildMainFrame();
 
-        String gitInfobpx = "<html>This system requires Git.<br>Please install it before to continue</html>";
-        JLabel gitAlert = new JLabel(gitInfobpx);
-        gitAlert.setLayout(new GridLayout(0, 1));
-        mainFrame.add(gitAlert);
+        JPanel jp = new JPanel();
+        jp.setLayout(new GridLayout(2, 1));
+
+        String gitInfobox = "<html>This system requires Git.<br>";
+        gitInfobox += "Please install it before to continue<br></html>";
+        JLabel gitAlert = new JLabel(gitInfobox);
+        jp.add(gitAlert);
+
+        String gitDownload = "<html><a href=https://git-scm.com/downloads>https://git-scm.com/downloads</a></html>";
+        JLabel gitUrlLabel = new JLabel(gitDownload);
+        gitUrlLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
+        gitUrlLabel.setName("gitDownload");
+        gitUrlLabel.addMouseListener(new LinkListener());
+        jp.add(gitUrlLabel);
+
+        mainFrame.add(jp);
 
         mainFrame.setVisible(true);
     }

@@ -39,10 +39,9 @@ public class OperatingSystem {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
 
-        // Uncomment to trigger to install git
+        // Uncomment to trigger to install git frame
         //gitVersion=null;
         if (gitVersion != null)
             logger.info("[" + LocalDateTime.now() + "] Git version detected: " + gitVersion);
