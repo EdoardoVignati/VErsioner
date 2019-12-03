@@ -5,15 +5,13 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
 import java.util.*;
 
 /**
  * @author @EdoardoVignati
  */
-public class VErsioner extends JFrame {
+public class Versioner extends JFrame {
 
     static DefaultListModel listModel;
     static DragDropFrame dndFrame = null;
@@ -47,7 +45,7 @@ public class VErsioner extends JFrame {
         gbc.fill = GridBagConstraints.BOTH;
         mainFrame.add(scrollPane, gbc);
 
-        // restore button
+        // Restore button
         JButton restoreButton = new JButton("Restore version");
         restoreButton.setLayout(new GridLayout(1, 1));
         restoreButton.setName("restoreButton");
@@ -68,15 +66,16 @@ public class VErsioner extends JFrame {
         mainFrame.add(dndFrame, gbc);
 
         // Message area
-        String description = "Write here a version message";
-        descr = new JTextArea(description);
+        descr = new JTextArea("Write here a version message");
+        descr.addFocusListener(new CustomFocusListener());
+        JScrollPane jScrollPane = new JScrollPane(descr);
         descr.setWrapStyleWord(true);
         descr.setLineWrap(true);
-        descr.setLayout(new GridLayout(1, 1));
+        descr.setName("descr");
         gbc.gridx = 1;
         gbc.gridy = 1;
         gbc.gridheight = 1;
-        mainFrame.add(descr, gbc);
+        mainFrame.add(jScrollPane, gbc);
 
         // Save button
         JButton saveButton = new JButton("Save version");

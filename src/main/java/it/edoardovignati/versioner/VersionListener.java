@@ -7,7 +7,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
 
-import static it.edoardovignati.versioner.VErsioner.*;
+import static it.edoardovignati.versioner.Versioner.*;
 
 public class VersionListener implements MouseListener {
     static Logger logger = Logger.getLogger(Main.class);

@@ -1,23 +1,28 @@
 package it.edoardovignati.versioner;
 
+import org.apache.log4j.Logger;
+
 import javax.swing.*;
 import javax.swing.event.MenuEvent;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URI;
+import java.time.LocalDateTime;
 
 public class MenuListener implements javax.swing.event.MenuListener, MouseListener {
+    static Logger logger = Logger.getLogger(Main.class);
+
     @Override
     public void menuSelected(MenuEvent menuEvent) {
         JMenu jm = (JMenu) menuEvent.getSource();
         if (jm.getName().equals("help")) {
-            JDialog dialog = new JDialog(VErsioner.mainFrame, "Help");
+            JDialog dialog = new JDialog(Versioner.mainFrame, "Help");
             dialog.setSize(new Dimension(300, 300));
             dialog.setVisible(true);
 
         } else if (jm.getName().equals("about")) {
-            JDialog dialog = new JDialog(VErsioner.mainFrame, "About");
+            JDialog dialog = new JDialog(Versioner.mainFrame, "About");
             dialog.setSize(new Dimension(300, 300));
             dialog.setLayout(new GridLayout(2,0));
 
@@ -59,7 +64,7 @@ public class MenuListener implements javax.swing.event.MenuListener, MouseListen
             try {
                 Desktop.getDesktop().browse(new URI("https://github.com/EdoardoVignati/VErsioner/"));
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.error("[" + LocalDateTime.now() + "] Error on click event");
             }
         }
     }

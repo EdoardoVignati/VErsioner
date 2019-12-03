@@ -18,9 +18,9 @@ public class Main {
         logger.info("[" + LocalDateTime.now() + "] Building application");
 
         if (OperatingSystem.prerequisites())
-            VErsioner.build();
+            Versioner.build();
         else
-            VErsioner.installGit();
+            Versioner.installGit();
 
     }
 }
