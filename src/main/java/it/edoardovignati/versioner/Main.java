@@ -4,6 +4,10 @@ import org.apache.log4j.Logger;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author @EdoardoVignati
+ */
+
 public class Main {
     public static Logger logger;
 

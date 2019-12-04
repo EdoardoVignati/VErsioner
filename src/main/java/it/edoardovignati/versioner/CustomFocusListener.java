@@ -6,6 +6,10 @@ import javax.swing.*;
 import java.awt.event.FocusEvent;
 import java.time.LocalDateTime;
 
+/**
+ * @author @EdoardoVignati
+ */
+
 public class CustomFocusListener implements java.awt.event.FocusListener {
 
     static Logger logger = Logger.getLogger(Main.class);

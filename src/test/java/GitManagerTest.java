@@ -1,5 +1,6 @@
 import it.edoardovignati.versioner.GitManager;
 import org.apache.commons.io.FileUtils;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.jupiter.api.*;
 
 import java.io.File;
@@ -7,8 +8,10 @@ import java.io.IOException;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
+/**
+ * @author @EdoardoVignati
+ */
 
 public class GitManagerTest {
 
@@ -19,6 +22,7 @@ public class GitManagerTest {
     public void create() {
         String file1 = "File1.txt";
         String file2 = "Untracked.txt";
+
 
         //Test if exists dir and delete it
         File directory = new File(absTestPath);
@@ -53,11 +57,10 @@ public class GitManagerTest {
         assertEquals(file.getPath(), GitManager.getPath());
     }
 
-
     @Test
     public void getCommitsTest() {
         GitManager.registerPath(file.getPath());
-        GitManager.addAndCommit("A message to manager1");
+        GitManager.addAndCommit("File1 versioned");
         assertEquals(1, GitManager.getCommits().size());
     }
 
@@ -65,18 +68,35 @@ public class GitManagerTest {
     @Test
     public void checkUntrackedTest() {
         GitManager.registerPath(file.getPath());
-        GitManager.addAndCommit("A message to manager2");
+        GitManager.addAndCommit("A message to manager");
         Set<String> untracked = GitManager.getUntracked();
         assertEquals(true, untracked.contains("Untracked.txt"));
+        assertEquals(false, untracked.contains("File1.txt"));
     }
+
 
     @Test
     public void checkoutTest() {
-        //TODO
+        GitManager.registerPath(file.getPath());
+        GitManager.addAndCommit("First commit");
+        RevCommit firstCommit = GitManager.getCommits().get(0);
+
+        GitManager.addAndCommit("Second commit");
+        GitManager.addAndCommit("Third commit");
+        RevCommit lastCommit = GitManager.getCommits().get(0);
+
+
+        GitManager.checkout(firstCommit);
+
+        assertEquals(firstCommit.getName(), GitManager.getHead().getName());
+
+        GitManager.checkout(firstCommit);
+
+        GitManager.restore();
+
+        assertEquals(lastCommit.getName(), GitManager.getHead().getName());
+
     }
 
-    @Test
-    public void restoreFromcheckoutTest() {
-        //TODO
-    }
+
 }

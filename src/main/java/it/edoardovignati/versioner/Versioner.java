@@ -154,17 +154,7 @@ public class Versioner extends JFrame {
         refreshVersions();
     }
 
-    static void saveTriggered() {
-        String message = descr.getText();
-        logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
 
-        GitManager.addAndCommit(message);
-
-        logger.info("[" + LocalDateTime.now() + "] Commit done: " + message);
-
-        descr.setText("Write here a version message");
-        refreshVersions();
-    }
 
     static void installGit() {
 

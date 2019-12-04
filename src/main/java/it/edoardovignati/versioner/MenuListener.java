@@ -10,6 +10,10 @@ import java.awt.event.MouseListener;
 import java.net.URI;
 import java.time.LocalDateTime;
 
+/**
+ * @author @EdoardoVignati
+ */
+
 public class MenuListener implements javax.swing.event.MenuListener, MouseListener {
     static Logger logger = Logger.getLogger(Main.class);
 
@@ -24,7 +28,7 @@ public class MenuListener implements javax.swing.event.MenuListener, MouseListen
         } else if (jm.getName().equals("about")) {
             JDialog dialog = new JDialog(Versioner.mainFrame, "About");
             dialog.setSize(new Dimension(300, 300));
-            dialog.setLayout(new GridLayout(2,0));
+            dialog.setLayout(new GridLayout(2, 0));
 
             String about = "<html><h1>VErsioner</h1></html>";
 

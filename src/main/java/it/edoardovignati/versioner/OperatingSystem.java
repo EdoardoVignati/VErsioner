@@ -6,6 +6,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 
+/**
+ * @author @EdoardoVignati
+ */
+
 public class OperatingSystem {
 
     static String OS;

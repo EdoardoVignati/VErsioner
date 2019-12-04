@@ -5,13 +5,12 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.storage.file.FileRepositoryBuilder;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Set;
@@ -59,7 +58,7 @@ public class GitManager {
                 logger.info("[" + LocalDateTime.now() + "] Creating new git repo");
                 try {
                     git = Git.init().setDirectory(file.getParentFile()).call();
-                    git.add().addFilepattern(path).call();
+                    git.add().addFilepattern(file.getName()).call();
                     git.commit().setMessage(message).call();
                 } catch (GitAPIException e) {
                     e.printStackTrace();
@@ -148,6 +147,19 @@ public class GitManager {
         } catch (Exception e) {
             logger.error("[" + LocalDateTime.now() + "] No repo to update");
         }
+    }
+
+    public static RevCommit getHead() {
+        try {
+            String head = git.getRepository().resolve("HEAD").getName();
+            for (RevCommit r : getCommits())
+                if (r.getName().equals(head))
+                    return r;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

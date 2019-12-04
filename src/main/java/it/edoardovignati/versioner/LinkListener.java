@@ -9,6 +9,10 @@ import java.awt.event.MouseListener;
 import java.net.URI;
 import java.time.LocalDateTime;
 
+/**
+ * @author @EdoardoVignati
+ */
+
 public class LinkListener implements MouseListener {
     static Logger logger = Logger.getLogger(Main.class);
 

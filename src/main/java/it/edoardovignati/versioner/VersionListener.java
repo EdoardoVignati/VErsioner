@@ -9,6 +9,10 @@ import java.time.LocalDateTime;
 
 import static it.edoardovignati.versioner.Versioner.*;
 
+/**
+ * @author @EdoardoVignati
+ */
+
 public class VersionListener implements MouseListener {
     static Logger logger = Logger.getLogger(Main.class);
 
@@ -48,4 +52,16 @@ public class VersionListener implements MouseListener {
 
     }
 
+
+    static void saveTriggered() {
+        String message = descr.getText();
+        logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
+
+        GitManager.addAndCommit(message);
+
+        logger.info("[" + LocalDateTime.now() + "] Commit done: " + message);
+
+        descr.setText("Write here a version message");
+        refreshVersions();
+    }
 }
