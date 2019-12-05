@@ -15,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GitManagerTest {
 
-    private static String absTestPath = "/tmp/versioner/";
-    private static File file, untracked;
+    static final String absTestPath = "/tmp/versioner/";
+    static File file, untracked;
 
     @BeforeEach
     public void create() {

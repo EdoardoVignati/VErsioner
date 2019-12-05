@@ -24,9 +24,9 @@ import java.util.Set;
 
 public class GitManager {
 
-    private static Logger logger = Logger.getLogger(Main.class);
+    static Logger logger = Logger.getLogger(Main.class);
 
-    private static Git git;
+    public static Git git;
     public static String path;
 
     public static void registerPath(String filePath) {

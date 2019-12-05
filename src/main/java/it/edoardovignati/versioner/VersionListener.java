@@ -25,11 +25,13 @@ public class VersionListener implements MouseListener {
         logger.info("[" + LocalDateTime.now() + "] New MouseEvent - " + o.getName() + " click");
 
         if (o.getName().equals("saveButton"))
-            saveTriggered();
-        else if (o.getName().equals("restoreButton"))
-            buildConfirmationDialog();
-        else if (o.getName().equals("restoreConfirmation"))
-            restoreConfirmed();
+            if (GitManager.path != null)
+                saveTriggered();
+            else if (o.getName().equals("restoreButton")) {
+                if (GitManager.git != null)
+                    buildConfirmationDialog();
+            } else if (o.getName().equals("restoreConfirmation"))
+                restoreConfirmed();
     }
 
     @Override

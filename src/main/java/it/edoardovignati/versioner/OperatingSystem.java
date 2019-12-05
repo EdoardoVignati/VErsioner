@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 public class OperatingSystem {
 
-    static String OS;
+    public static String OS;
     static Logger logger = Logger.getLogger(Main.class);
 
 

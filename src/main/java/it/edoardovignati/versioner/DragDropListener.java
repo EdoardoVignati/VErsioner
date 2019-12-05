@@ -17,7 +17,7 @@ import java.util.List;
 
 class DragDropListener implements DropTargetListener {
 
-    private static Logger logger = Logger.getLogger(Main.class);
+    static Logger logger = Logger.getLogger(Main.class);
 
 
     @Override

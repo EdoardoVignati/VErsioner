@@ -19,8 +19,8 @@ public class Versioner extends JFrame {
     static JFrame mainFrame;
     static JList versionsFrame;
     static Logger logger = Logger.getLogger(Main.class);
-    private static ArrayList<RevCommit> commits;
-    private static JDialog confirmDialog;
+    static ArrayList<RevCommit> commits;
+    static JDialog confirmDialog;
     private static GridBagConstraints gbc;
 
     public static void build() {
@@ -53,7 +53,6 @@ public class Versioner extends JFrame {
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridheight = 1;
-        gbc.weighty = 0.4;
         mainFrame.add(restoreButton, gbc);
 
         // Drag and drop area
@@ -85,7 +84,6 @@ public class Versioner extends JFrame {
         gbc.gridx = 1;
         gbc.gridy = 2;
         gbc.gridheight = 1;
-        gbc.weighty = 0.4;
         mainFrame.add(saveButton, gbc);
 
 

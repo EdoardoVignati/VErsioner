@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  */
 
 public class Main {
-    public static Logger logger;
+    static Logger logger;
 
     public static void main(String[] args) {
 

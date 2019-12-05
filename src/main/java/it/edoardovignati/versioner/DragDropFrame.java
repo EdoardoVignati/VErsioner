@@ -16,10 +16,10 @@ import java.time.LocalDateTime;
 class DragDropFrame extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(Main.class);
-    static JLabel putFile;
+    static Logger logger = Logger.getLogger(Main.class);
+    public static JLabel putFile;
 
-    protected DragDropFrame() {
+    public DragDropFrame() {
 
         super();
 
