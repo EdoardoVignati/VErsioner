@@ -2,7 +2,7 @@
 
 <hr />
 
-[![Build Status](https://travis-ci.org/EdoardoVignati/VErsioner.svg?branch=develop)](https://travis-ci.org/EdoardoVignati/VErsioner) [DOWNLOAD JAR](https://url.edoardovignati.it/versioner)
+[![Build Status](https://travis-ci.org/EdoardoVignati/VErsioner.svg?branch=develop)](https://travis-ci.org/EdoardoVignati/VErsioner) [DOWNLOAD](https://url.edoardovignati.it/versioner)
 
 "VErsioner" is a simple and graphic tool for file versioning. 
 
