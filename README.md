@@ -4,7 +4,11 @@
 
 [![Build Status](https://travis-ci.org/EdoardoVignati/VErsioner.svg?branch=develop)](https://travis-ci.org/EdoardoVignati/VErsioner) [DOWNLOAD JAR](https://url.edoardovignati.it/versioner)
 
-A simple and graphic tool for everyone for file versioning
+"VErsioner" is a simple and graphic tool for file versioning. 
+
+Everyone can save different versions of a file and restore them if necessary.
+
+"VErsioner" can be used for example fot thesis, important documents, books ...(and code, why not?).
 
 <img src="https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/demo.png" width="60%">
 
