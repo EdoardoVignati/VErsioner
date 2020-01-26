@@ -12,14 +12,15 @@ Everyone can save different versions of a file and restore them if necessary.
 
 <img src="https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/demo.png" width="60%">
 
-# Prerequisites
+# Prerequisites for users
+- Install git
+
+# Prerequisites for developers
 - Install git
 - Install Maven
 
-# Development and running
-- Clone the repo and import in your ide as Maven project
-- Run it.edoardovignati.versioner.Main.java 
-- When opened, drop a file into the droppable area and click the save button: this will turn your file into a directory with a first commit.
+# Development
+- Clone the repo and import in your IDE as Maven project
+- Run it.edoardovignati.versioner.Main.java  or build the jar with "mvn assembly:assembly"
+- Drop a file into the droppable area and click the save button: this will turn your file into a directory with a first commit.
 
-# Build
-- Clone the repo and build the jar with "mvn assembly:assembly"
