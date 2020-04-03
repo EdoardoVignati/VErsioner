@@ -8,7 +8,7 @@
 
 Everyone can save different versions of a file and restore them if necessary.
 
-"VErsioner" can be used for thesis, important documents, books ...(and code, why not?).
+"VErsioner" can be used for thesis, important documents, books...
 
 <img src="https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/demo.png" width="60%">
 
