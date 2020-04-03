@@ -1,7 +1,7 @@
 <img src="https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/logo/versioner.png" width="40%">
 
 <hr />
-[![Build Status](https://ci.edoardovignati.it/buildStatus/icon?job=VErsioner)]
+<a href='https://ci.edoardovignati.it/job/VErsioner/'><img src='https://ci.edoardovignati.it/buildStatus/icon?job=VErsioner'></a>
 
 [![Build Status](https://travis-ci.org/EdoardoVignati/VErsioner.svg?branch=develop)](https://travis-ci.org/EdoardoVignati/VErsioner) [DOWNLOAD](https://url.edoardovignati.it/versioner)
 
