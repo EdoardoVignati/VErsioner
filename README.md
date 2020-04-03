@@ -3,7 +3,7 @@
 <hr />
 <a href='https://ci.edoardovignati.it/job/VErsioner/'><img src='https://ci.edoardovignati.it/buildStatus/icon?job=VErsioner'></a>
 
-<a href='https://url.edoardovignati.it/versioner'><img src='https://ci.edoardovignati.it/buildStatus/icon?job=VErsioner'></a>
+<a href='https://url.edoardovignati.it/versioner'><img src='https://ci.edoardovignati.it/buildStatus/icon?job=VErsioner&ciao=ciao'></a>
 
 
 "VErsioner" is a simple and graphic tool for file versioning. 
