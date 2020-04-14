@@ -13,10 +13,12 @@ Everyone can save different versions of a file and restore them if necessary.
 <img src="https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/demo.png" width="60%">
 
 # Prerequisites for users
-- Install git
+- Install Git
+- Install Java
 
 # Prerequisites for developers
-- Install git
+- Install Git
+- Install Java
 - Install Maven
 
 # Development
