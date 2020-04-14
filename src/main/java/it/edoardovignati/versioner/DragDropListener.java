@@ -9,6 +9,9 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static it.edoardovignati.versioner.GitManager.addAndCommit;
+import static it.edoardovignati.versioner.Versioner.refreshVersions;
+
 /**
  * Listener for the dropping area
  *
@@ -46,6 +49,8 @@ class DragDropListener implements DropTargetListener {
                         logger.info("[" + LocalDateTime.now() + "] New file dropped");
                         GitManager.registerPath(f.getPath());
                         DragDropFrame.putFile.setText(f.getPath());
+                        addAndCommit("Fake commit", true);
+                        refreshVersions();
                     }
                 }
 

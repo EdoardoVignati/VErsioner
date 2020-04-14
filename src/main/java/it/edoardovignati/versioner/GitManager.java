@@ -38,7 +38,7 @@ public class GitManager {
         return path;
     }
 
-    public static void addAndCommit(String message) {
+    public static void addAndCommit(String message, boolean mockedCommit) {
 
         logger.info("[" + LocalDateTime.now() + "] Git manager started");
 
@@ -58,35 +58,38 @@ public class GitManager {
                 logger.info("[" + LocalDateTime.now() + "] Creating new git repo");
                 try {
                     git = Git.init().setDirectory(file.getParentFile()).call();
-                    git.add().addFilepattern(file.getName()).call();
-                    git.commit().setMessage(message).call();
+                    if (!mockedCommit) {
+                        git.add().addFilepattern(file.getName()).call();
+                        git.commit().setMessage(message).call();
+                    }
                 } catch (GitAPIException e) {
                     e.printStackTrace();
                 }
             } else {
                 //Not first commit
                 try {
-                    logger.info("[" + LocalDateTime.now() + "] Creating temp branch");
-                    git.branchCreate().setName("temp").call();
-                    logger.info("[" + LocalDateTime.now() + "] Checking out temp");
-                    git.checkout().setName("temp").call();
+                    if (!mockedCommit) {
+                        logger.info("[" + LocalDateTime.now() + "] Creating temp branch");
+                        git.branchCreate().setName("temp").call();
+                        logger.info("[" + LocalDateTime.now() + "] Checking out temp");
+                        git.checkout().setName("temp").call();
 
-                    logger.info("[" + LocalDateTime.now() + "] git add " + path);
-                    git.add().addFilepattern(file.getName()).call();
-                    logger.info("[" + LocalDateTime.now() + "] git commit " + path);
-                    git.commit().setMessage(message).call();
+                        logger.info("[" + LocalDateTime.now() + "] git add " + path);
+                        git.add().addFilepattern(file.getName()).call();
+                        logger.info("[" + LocalDateTime.now() + "] git commit " + path);
+                        git.commit().setMessage(message).call();
 
-                    logger.info("[" + LocalDateTime.now() + "] Merging ours master");
-                    git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("master")).call();
+                        logger.info("[" + LocalDateTime.now() + "] Merging ours master");
+                        git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("master")).call();
 
-                    restore();
+                        restore();
 
-                    logger.info("[" + LocalDateTime.now() + "] Merging into master");
-                    git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("temp")).call();
+                        logger.info("[" + LocalDateTime.now() + "] Merging into master");
+                        git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("temp")).call();
 
-                    logger.info("[" + LocalDateTime.now() + "] Deleting branch temp");
-                    git.branchDelete().setBranchNames("temp").call();
-
+                        logger.info("[" + LocalDateTime.now() + "] Deleting branch temp");
+                        git.branchDelete().setBranchNames("temp").call();
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                     logger.error("[" + LocalDateTime.now() + "] Git error");

@@ -24,14 +24,14 @@ public class VersionListener implements MouseListener {
 
         logger.info("[" + LocalDateTime.now() + "] New MouseEvent - " + o.getName() + " click");
 
-        if (o.getName().equals("saveButton"))
+        if (o.getName().equals("saveButton")) {
             if (GitManager.path != null)
                 saveTriggered();
-            else if (o.getName().equals("restoreButton")) {
-                if (GitManager.git != null)
-                    buildConfirmationDialog();
-            } else if (o.getName().equals("restoreConfirmation"))
-                restoreConfirmed();
+        } else if (o.getName().equals("restoreButton")) {
+            if (GitManager.git != null)
+                buildConfirmationDialog();
+        } else if (o.getName().equals("restoreConfirmation"))
+            restoreConfirmed();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class VersionListener implements MouseListener {
         String message = descr.getText();
         logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
 
-        GitManager.addAndCommit(message);
+        GitManager.addAndCommit(message, false);
 
         logger.info("[" + LocalDateTime.now() + "] Commit done: " + message);
 

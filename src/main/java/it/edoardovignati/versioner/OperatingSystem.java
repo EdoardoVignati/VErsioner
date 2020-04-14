@@ -5,6 +5,8 @@ import org.apache.log4j.Logger;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
+import java.io.*;
+
 
 /**
  * @author @EdoardoVignati
@@ -17,33 +19,50 @@ public class OperatingSystem {
 
 
     public static String detect() {
-        OS = System.getProperty("os.name");
+        OS = System.getProperty("os.name").toLowerCase();
         return OS;
     }
 
     public static boolean prerequisites() {
+
+
         String gitVersion = null;
-        if (isUnix()) {
-            Runtime rt = Runtime.getRuntime();
-            try {
-                Process pr = rt.exec("git --version");
+        String gitRegex = "git version [0-9]+\\.[0-9]+\\.[0-9]+.+";
 
-                BufferedReader reader =
-                        new BufferedReader(new InputStreamReader(pr.getInputStream()));
-                StringBuilder builder = new StringBuilder();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    builder.append(line);
-                    builder.append(System.getProperty("line.separator"));
-                }
-                String gitRegex = "git version [0-9]+.[0-9]+.[0-9]+";
-                if (builder.toString().replace("\n", "").matches(gitRegex))
-                    gitVersion = builder.toString().replace("\n", "");
 
-            } catch (Exception e) {
-                e.printStackTrace();
+        ProcessBuilder processBuilder = new ProcessBuilder();
+
+        if (isUnix())
+            processBuilder.command("bash", "-c", "git --version");
+        else if (isWindows())
+            processBuilder.command("cmd.exe", "/c", "git --version");
+
+        try {
+
+            Process process = processBuilder.start();
+
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                if (line.matches(gitRegex))
+                    gitVersion = line;
             }
+
+            int exitVal = process.waitFor();
+            if (exitVal == 0) {
+                logger.info("Exit ok from git version check");
+            } else {
+                logger.info("Error from git version check");
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+
 
         // Uncomment to trigger to install git frame
         //gitVersion=null;
@@ -58,27 +77,21 @@ public class OperatingSystem {
     }
 
     public static boolean isWindows() {
-
         return (OS.indexOf("win") >= 0);
 
     }
 
     public static boolean isMac() {
-
         return (OS.indexOf("mac") >= 0);
 
     }
 
     public static boolean isUnix() {
-
         return (OS.indexOf("nix") >= 0 || OS.indexOf("nux") >= 0 || OS.indexOf("aix") > 0);
 
     }
 
     public static boolean isSolaris() {
-
         return (OS.indexOf("sunos") >= 0);
-
     }
-
 }

@@ -30,7 +30,7 @@ public class MenuListener implements javax.swing.event.MenuListener, MouseListen
             dialog.setSize(new Dimension(300, 300));
             dialog.setLayout(new GridLayout(2, 0));
 
-            String about = "<html><h1>VErsioner</h1></html>";
+            String about = "<html><h1>VErsioner</h1>Developed by Edoardo Vignati</html>";
 
             JLabel aboutLabel = new JLabel(about);
             dialog.add(aboutLabel);

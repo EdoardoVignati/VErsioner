@@ -60,7 +60,7 @@ public class GitManagerTest {
     @Test
     public void getCommitsTest() {
         GitManager.registerPath(file.getPath());
-        GitManager.addAndCommit("File1 versioned");
+        GitManager.addAndCommit("File1 versioned", false);
         assertEquals(1, GitManager.getCommits().size());
     }
 
@@ -68,7 +68,7 @@ public class GitManagerTest {
     @Test
     public void checkUntrackedTest() {
         GitManager.registerPath(file.getPath());
-        GitManager.addAndCommit("A message to manager");
+        GitManager.addAndCommit("A message to manager", false);
         Set<String> untracked = GitManager.getUntracked();
         assertEquals(true, untracked.contains("Untracked.txt"));
         assertEquals(false, untracked.contains("File1.txt"));
@@ -78,11 +78,11 @@ public class GitManagerTest {
     @Test
     public void checkoutTest() {
         GitManager.registerPath(file.getPath());
-        GitManager.addAndCommit("First commit");
+        GitManager.addAndCommit("First commit",false);
         RevCommit firstCommit = GitManager.getCommits().get(0);
 
-        GitManager.addAndCommit("Second commit");
-        GitManager.addAndCommit("Third commit");
+        GitManager.addAndCommit("Second commit",false);
+        GitManager.addAndCommit("Third commit",false);
         RevCommit lastCommit = GitManager.getCommits().get(0);
 
 
