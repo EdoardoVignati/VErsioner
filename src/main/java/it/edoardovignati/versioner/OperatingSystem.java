@@ -27,7 +27,7 @@ public class OperatingSystem {
 
 
         String gitVersion = null;
-        String gitRegex = "git version [0-9]+\\.[0-9]+\\.[0-9]+.+";
+        String gitRegex = "git version [0-9]+\\.[0-9]+\\.[0-9]+.{0,}";
 
 
         ProcessBuilder processBuilder = new ProcessBuilder();
