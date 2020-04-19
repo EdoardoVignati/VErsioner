@@ -59,7 +59,7 @@ public class VersionListener implements MouseListener {
         String message = descr.getText();
         logger.info("[" + LocalDateTime.now() + "] Calling Git manager");
 
-        GitManager.addAndCommit(message, false);
+        GitManager.addAndCommit(message);
 
         logger.info("[" + LocalDateTime.now() + "] Commit done: " + message);
 

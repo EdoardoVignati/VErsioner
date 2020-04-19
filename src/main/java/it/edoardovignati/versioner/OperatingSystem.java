@@ -3,9 +3,9 @@ package it.edoardovignati.versioner;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDateTime;
-import java.io.*;
 
 
 /**
@@ -29,7 +29,6 @@ public class OperatingSystem {
         String gitVersion = null;
         String gitRegex = "git version [0-9]+\\.[0-9]+\\.[0-9]+.{0,}";
 
-
         ProcessBuilder processBuilder = new ProcessBuilder();
 
         if (isUnix())
@@ -46,10 +45,9 @@ public class OperatingSystem {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                if (line.matches(gitRegex))
+                if (line.contains("git"))
                     gitVersion = line;
             }
-
             int exitVal = process.waitFor();
             if (exitVal == 0) {
                 logger.info("Exit ok from git version check");

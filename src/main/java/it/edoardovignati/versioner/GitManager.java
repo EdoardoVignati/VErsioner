@@ -38,7 +38,7 @@ public class GitManager {
         return path;
     }
 
-    public static void addAndCommit(String message, boolean mockedCommit) {
+    public static void addAndCommit(String message) {
 
         logger.info("[" + LocalDateTime.now() + "] Git manager started");
 
@@ -54,42 +54,38 @@ public class GitManager {
             }
 
             //First commit
-            if (git == null) {
+            if (git == null || GitManager.getCommits().size() == 0) {
                 logger.info("[" + LocalDateTime.now() + "] Creating new git repo");
                 try {
                     git = Git.init().setDirectory(file.getParentFile()).call();
-                    if (!mockedCommit) {
-                        git.add().addFilepattern(file.getName()).call();
-                        git.commit().setMessage(message).call();
-                    }
+                    git.add().addFilepattern(file.getName()).call();
+                    git.commit().setMessage(message).call();
                 } catch (GitAPIException e) {
                     e.printStackTrace();
                 }
             } else {
                 //Not first commit
                 try {
-                    if (!mockedCommit) {
-                        logger.info("[" + LocalDateTime.now() + "] Creating temp branch");
-                        git.branchCreate().setName("temp").call();
-                        logger.info("[" + LocalDateTime.now() + "] Checking out temp");
-                        git.checkout().setName("temp").call();
+                    logger.info("[" + LocalDateTime.now() + "] Creating temp branch");
+                    git.branchCreate().setName("temp").call();
+                    logger.info("[" + LocalDateTime.now() + "] Checking out temp");
+                    git.checkout().setName("temp").call();
 
-                        logger.info("[" + LocalDateTime.now() + "] git add " + path);
-                        git.add().addFilepattern(file.getName()).call();
-                        logger.info("[" + LocalDateTime.now() + "] git commit " + path);
-                        git.commit().setMessage(message).call();
+                    logger.info("[" + LocalDateTime.now() + "] git add " + path);
+                    git.add().addFilepattern(file.getName()).call();
+                    logger.info("[" + LocalDateTime.now() + "] git commit " + path);
+                    git.commit().setMessage(message).call();
 
-                        logger.info("[" + LocalDateTime.now() + "] Merging ours master");
-                        git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("master")).call();
+                    logger.info("[" + LocalDateTime.now() + "] Merging ours master");
+                    git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("master")).call();
 
-                        restore();
+                    restore();
 
-                        logger.info("[" + LocalDateTime.now() + "] Merging into master");
-                        git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("temp")).call();
+                    logger.info("[" + LocalDateTime.now() + "] Merging into master");
+                    git.merge().setStrategy(MergeStrategy.OURS).include(git.getRepository().resolve("temp")).call();
 
-                        logger.info("[" + LocalDateTime.now() + "] Deleting branch temp");
-                        git.branchDelete().setBranchNames("temp").call();
-                    }
+                    logger.info("[" + LocalDateTime.now() + "] Deleting branch temp");
+                    git.branchDelete().setBranchNames("temp").call();
                 } catch (Exception e) {
                     e.printStackTrace();
                     logger.error("[" + LocalDateTime.now() + "] Git error");
@@ -102,11 +98,21 @@ public class GitManager {
 
     public static ArrayList<RevCommit> getCommits() {
         ArrayList<RevCommit> commits = new ArrayList();
+        if (git == null)
+            try {
+                git = Git.open(new File(new File(path).getParent() + "/.git"));
+            } catch (Exception e) {
+                //e.printStackTrace();
+                logger.error("[" + LocalDateTime.now() + "] Repo not found");
+                git = null;
+            }
+
         try {
             if (!new File(new File(path).getParent() + "/.git").exists())
                 throw new FileNotFoundException();
             Repository repository = new FileRepository(new File(path).getParent() + "/.git");
             String treeName = "refs/heads/master";
+
 
             for (RevCommit commit : git.log().add(repository.resolve(treeName)).call())
                 commits.add(commit);

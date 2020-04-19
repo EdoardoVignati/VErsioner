@@ -49,7 +49,6 @@ class DragDropListener implements DropTargetListener {
                         logger.info("[" + LocalDateTime.now() + "] New file dropped");
                         GitManager.registerPath(f.getPath());
                         DragDropFrame.putFile.setText(f.getPath());
-                        addAndCommit("Fake commit", true);
                         refreshVersions();
                     }
                 }
