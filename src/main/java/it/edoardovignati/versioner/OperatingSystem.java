@@ -31,7 +31,7 @@ public class OperatingSystem {
 
         ProcessBuilder processBuilder = new ProcessBuilder();
 
-        if (isUnix())
+        if (isUnix() || isMac())
             processBuilder.command("bash", "-c", "git --version");
         else if (isWindows())
             processBuilder.command("cmd.exe", "/c", "git --version");
