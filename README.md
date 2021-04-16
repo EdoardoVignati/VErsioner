@@ -1,9 +1,5 @@
 <img src="https://raw.githubusercontent.com/EdoardoVignati/VErsioner/develop/logo/versioner.png" width="40%">
 
-<hr />
-<a href='https://ci.edoardovignati.it/job/VErsioner/'><img src='https://ci.edoardovignati.it/buildStatus/icon?job=VErsioner'></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href='https://url.edoardovignati.it/versioner'><img src='https://ci.edoardovignati.it/buildStatus/icon?job=VErsioner&subject=Download&status=JAR&color=darkturquoise'></a>
-
-
 "VErsioner" is a simple and graphic tool for file versioning. 
 
 Everyone can save different versions of a file and restore them if necessary.
